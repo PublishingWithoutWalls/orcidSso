@@ -1,19 +1,23 @@
-# ORCID Profile Puller
+# ORCID Single Sign-On
 
-# NOTE: This plugin is a work in progress and not yet ready for production use.
+**NOTE: This plugin is a work in progress and not yet ready for
+production use.**
 
-Plugin for PKP user profiles (tested with OJS 2.x)
+Plugin for user authentication via ORCID and for populating PKP user
+profiles.
 
-Copyright (c) 2015-2016 University of Pittsburgh
-Copyright (c) 2014-2016 Simon Fraser University Library
-Copyright (c) 2003-2016 John Willinsky
+Copyright © 2015–2016 University of Pittsburgh
+<br/>Copyright © 2014–2016 Simon Fraser University Library
+<br/>Copyright © 2003–2016 John Willinsky
 
 Licensed under GPL 2 or better.
+
+**Tested with OJS 2.*x*; intended for OJS 3.*x* and OMP 1.2.**
 
 ## Features:
 
  * Hooks into the User Profile, Registration, and User Management forms
- * Adds a query by-email or by-ORCID-iD to pre-populate profile fields based on ORCID data.
+ * Adds a query by-email or by-ORCID-ID to pre-populate profile fields based on ORCID data.
 
 ## Install:
 
@@ -25,9 +29,7 @@ Licensed under GPL 2 or better.
 
 ## Bugs/TODOs:
 
-
- * The email / ORCID iD should be validated more strictly.  For example: `lib.pkp.classes.validation.ValidatorEmail` and `lib.pkp.classes.validation.ValidatorORCID`.
+ * The email / ORCID ID should be validated more strictly.  For example: `lib.pkp.classes.validation.ValidatorEmail` and `lib.pkp.classes.validation.ValidatorORCID`.
  * The settings should allow you to turn this on/off for each Template hook.
  * The resulting data should not blindly overwrite the current form data (if present)
  * Populating content into TinyMCE-based fields doesn't work.
-
