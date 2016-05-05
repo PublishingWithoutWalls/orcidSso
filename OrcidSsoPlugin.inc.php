@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @file plugins/generic/orcidProfile/OrcidProfilePlugin.inc.php
+ * @file plugins/generic/orcidSso/OrcidSsoPlugin.inc.php
  *
  * Copyright (c) 2015-2016 University of Pittsburgh
  * Copyright (c) 2014-2016 Simon Fraser University Library
  * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class OrcidProfilePlugin
- * @ingroup plugins_generic_orcidProfile
+ * @class OrcidSsoPlugin
+ * @ingroup plugins_generic_orcidSso
  *
- * @brief ORCID Profile plugin class
+ * @brief ORCID SSO plugin class
  */
 
 import('lib.pkp.classes.plugins.GenericPlugin');
@@ -27,7 +27,7 @@ define('OAUTH_TOKEN_URL', 'oauth/token');
 define('ORCID_API_VERSION_URL', 'v1.2/');
 define('ORCID_PROFILE_URL', 'orcid-profile');
 
-class OrcidProfilePlugin extends GenericPlugin {
+class OrcidSsoPlugin extends GenericPlugin {
 	/**
 	 * Called as a plugin is registered to the registry
 	 * @param $category String Name of category plugin was registered to
@@ -269,14 +269,14 @@ class OrcidProfilePlugin extends GenericPlugin {
 	 * @copydoc Plugin::getDisplayName()
 	 */
 	function getDisplayName() {
-		return __('plugins.generic.orcidProfile.displayName');
+		return __('plugins.generic.orcidSso.displayName');
 	}
 
 	/**
 	 * @copydoc Plugin::getDescription()
 	 */
 	function getDescription() {
-		return __('plugins.generic.orcidProfile.description');
+		return __('plugins.generic.orcidSso.description');
 	}
 
 	/**
@@ -365,16 +365,16 @@ class OrcidProfilePlugin extends GenericPlugin {
 				$templateMgr =& TemplateManager::getManager();
 				$templateMgr->register_function('plugin_url', array(&$this, 'smartyPluginUrl'));
 				$apiOptions = array(
-					ORCID_API_URL_PUBLIC => 'plugins.generic.orcidProfile.manager.settings.orcidProfileAPIPath.public',
-					ORCID_API_URL_PUBLIC_SANDBOX => 'plugins.generic.orcidProfile.manager.settings.orcidProfileAPIPath.publicSandbox',
-					ORCID_API_URL_MEMBER => 'plugins.generic.orcidProfile.manager.settings.orcidProfileAPIPath.member',
-					ORCID_API_URL_MEMBER_SANDBOX => 'plugins.generic.orcidProfile.manager.settings.orcidProfileAPIPath.memberSandbox'
+					ORCID_API_URL_PUBLIC => 'plugins.generic.orcidSso.manager.settings.orcidProfileAPIPath.public',
+					ORCID_API_URL_PUBLIC_SANDBOX => 'plugins.generic.orcidSso.manager.settings.orcidProfileAPIPath.publicSandbox',
+					ORCID_API_URL_MEMBER => 'plugins.generic.orcidSso.manager.settings.orcidProfileAPIPath.member',
+					ORCID_API_URL_MEMBER_SANDBOX => 'plugins.generic.orcidSso.manager.settings.orcidProfileAPIPath.memberSandbox'
 				);
 
 				$templateMgr->assign_by_ref('orcidApiUrls', $apiOptions);
 
-				$this->import('OrcidProfileSettingsForm');
-				$form = new OrcidProfileSettingsForm($this, $journal->getId());
+				$this->import('OrcidSsoSettingsForm');
+				$form = new OrcidSsoSettingsForm($this, $journal->getId());
 				if (Request::getUserVar('save')) {
 					$form->readInputData();
 					if ($form->validate()) {
@@ -403,7 +403,7 @@ class OrcidProfilePlugin extends GenericPlugin {
 	* @return string
 	*/
 	 function getStyleSheet() {
-		return $this->getPluginPath() . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'orcidProfile.css';
+		return $this->getPluginPath() . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'orcidSso.css';
 	 }
 
 	/**

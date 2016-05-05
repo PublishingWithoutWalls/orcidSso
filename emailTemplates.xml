@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE emails SYSTEM "../../../lib/pkp/dtd/emailTemplates.dtd">
 <!--
-  * plugins/generic/orcidProfile/emailTemplates.xml
+  * plugins/generic/orcidSso/emailTemplates.xml
   *
   * Copyright (c) 2013-2016 Simon Fraser University Library
   * Copyright (c) 2003-2016 John Willinsky

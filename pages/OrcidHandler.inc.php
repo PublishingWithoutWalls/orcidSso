@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file plugins/generic/orcidProfile/OrcidHandler.inc.php
+ * @file plugins/generic/orcidSso/OrcidHandler.inc.php
  *
  * Copyright (c) 2015-2016 University of Pittsburgh
  * Copyright (c) 2014-2016 Simon Fraser University Library
@@ -9,7 +9,7 @@
  * Distributed under the GNU GPL v2 or later. For full terms see the file docs/COPYING.
  *
  * @class OrcidHandler
- * @ingroup plugins_generic_orcidprofile
+ * @ingroup plugins_generic_orcidSso
  *
  * @brief Pass off internal ORCID API requests to ORCID
  */
@@ -26,7 +26,7 @@ class OrcidHandler extends Handler {
 
 		$journal = Request::getJournal();
 		$op = Request::getRequestedOp();
-		$plugin =& PluginRegistry::getPlugin('generic', 'orcidprofileplugin');
+		$plugin =& PluginRegistry::getPlugin('generic', 'orcidssoplugin');
 
 		// fetch the access token
 		$curl = curl_init();

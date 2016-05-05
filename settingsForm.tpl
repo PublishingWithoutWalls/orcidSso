@@ -1,20 +1,20 @@
 {**
- * plugins/generic/orcidProfile/settingsForm.tpl
+ * plugins/generic/orcidSso/settingsForm.tpl
  *
  * Copyright (c) 2015-2016 University of Pittsburgh
  * Copyright (c) 2014-2016 Simon Fraser University Library
  * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * ORCID Profile plugin settings
+ * ORCID SSO plugin settings
  *
  *}
 {strip}
-{assign var="pageTitle" value="plugins.generic.orcidProfile.manager.orcidProfileSettings"}
+{assign var="pageTitle" value="plugins.generic.orcidSso.manager.orcidSsoSettings"}
 {include file="common/header.tpl"}
 {/strip}
-<div id="orcidProfileSettings">
-<div id="description">{translate key="plugins.generic.orcidProfile.manager.settings.description"}</div>
+<div id="orcidSsoSettings">
+<div id="description">{translate key="plugins.generic.orcidSso.manager.settings.description"}</div>
 
 <div class="separator"></div>
 
@@ -23,15 +23,15 @@
 
 <table width="100%" class="data">
 	<tr valign="top">
-		<td width="20%" class="label">{fieldLabel name="orcidProfileAPIPath" required="true" key="plugins.generic.orcidProfile.manager.settings.orcidProfileAPIPath"}</td>
+		<td width="20%" class="label">{fieldLabel name="orcidProfileAPIPath" required="true" key="plugins.generic.orcidSso.manager.settings.orcidProfileAPIPath"}</td>
 		<td width="80%" class="value">{html_options_translate name="orcidProfileAPIPath" options=$orcidApiUrls selected=$orcidProfileAPIPath}</td>
 	</tr>
 	<tr valign="top">
-		<td class="label">{fieldLabel name="orcidClientId" required="true" key="plugins.generic.orcidProfile.manager.settings.orcidClientId"}</td>
+		<td class="label">{fieldLabel name="orcidClientId" required="true" key="plugins.generic.orcidSso.manager.settings.orcidClientId"}</td>
 		<td class="label"><input type="text" name="orcidClientId" id="orcidClientId" value="{$orcidClientId|escape}" size="40" class="textField" /></td>
 	</tr>
 	<tr valign="top">
-		<td class="label">{fieldLabel name="orcidClientSecret" required="true" key="plugins.generic.orcidProfile.manager.settings.orcidClientSecret"}</td>
+		<td class="label">{fieldLabel name="orcidClientSecret" required="true" key="plugins.generic.orcidSso.manager.settings.orcidClientSecret"}</td>
 		<td class="label"><input type="text" name="orcidClientSecret" id="orcidClientSecret" value="{$orcidClientSecret|escape}" size="40" class="textField" /></td>
 	</tr>
 </table>

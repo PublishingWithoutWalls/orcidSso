@@ -1,23 +1,23 @@
 <?php
 
 /**
- * @file plugins/generic/googleAnalytics/OrcidProfileSettingsForm.inc.php
+ * @file plugins/generic/orcidSso/OrcidSsoSettingsForm.inc.php
  *
  * Copyright (c) 2015-2016 University of Pittsburgh
  * Copyright (c) 2014-2016 Simon Fraser University Library
  * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class OrcidProfileSettingsForm
- * @ingroup plugins_generic_orcidProfile
+ * @class OrcidSsoSettingsForm
+ * @ingroup plugins_generic_orcidSso
  *
- * @brief Form for site admins to modify ORCID Profile plugin settings
+ * @brief Form for site admins to modify ORCID SSO plugin settings
  */
 
 
 import('lib.pkp.classes.form.Form');
 
-class OrcidProfileSettingsForm extends Form {
+class OrcidSsoSettingsForm extends Form {
 
 	/** @var $journalId int */
 	var $journalId;
@@ -30,13 +30,13 @@ class OrcidProfileSettingsForm extends Form {
 	 * @param $plugin object
 	 * @param $journalId int
 	 */
-	function OrcidProfileSettingsForm(&$plugin, $journalId) {
+	function OrcidSsoSettingsForm(&$plugin, $journalId) {
 		$this->journalId = $journalId;
 		$this->plugin =& $plugin;
 
 		parent::Form($plugin->getTemplatePath() . 'settingsForm.tpl');
 
-		$this->addCheck(new FormValidator($this, 'orcidProfileAPIPath', 'required', 'plugins.generic.orcidProfile.manager.settings.orcidAPIPathRequired'));
+		$this->addCheck(new FormValidator($this, 'orcidProfileAPIPath', 'required', 'plugins.generic.orcidSso.manager.settings.orcidAPIPathRequired'));
 	}
 
 	/**

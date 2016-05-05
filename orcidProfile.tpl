@@ -1,5 +1,5 @@
 {**
- * plugins/generic/orcidProfile/orcidProfile.tpl
+ * plugins/generic/orcidSso/orcidProfile.tpl
  *
  * Copyright (c) 2015-2016 University of Pittsburgh
  * Copyright (c) 2014-2016 Simon Fraser University Library
@@ -18,4 +18,4 @@ function openORCID() {ldelim}
 {rdelim}
 </script>
 
-<button id="connect-orcid-button" onclick="return openORCID();"><img id="orcid-id-logo" src="http://orcid.org/sites/default/files/images/orcid_24x24.png" width="24" height="24" alt="{translate key='plugins.generic.orcidProfile.submitAction'}"/>Create or Connect your ORCID iD</button>
+<button id="connect-orcid-button" onclick="return openORCID();"><img id="orcid-id-logo" src="http://orcid.org/sites/default/files/images/orcid_24x24.png" width="24" height="24" alt="{translate key='plugins.generic.orcidSso.submitAction'}"/>Create or Connect your ORCID iD</button>
