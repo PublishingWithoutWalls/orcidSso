@@ -106,11 +106,11 @@ class OrcidSsoPlugin extends GenericPlugin {
 
 	/**
 	 * Return the OAUTH path (prod or sandbox) based on the current API configuration
+     * @param $context Context
 	 * @return $string
 	 */
-	function getOauthPath() {
-		$journal = Request::getJournal();
-		$apiPath =  $this->getSetting($journal->getId(), 'orcidProfileAPIPath');
+	function getOauthPath($context) {
+		$apiPath =	$this->getSetting($context->getId(), 'orcidProfileAPIPath');
 		if ($apiPath == ORCID_API_URL_PUBLIC || $apiPath == ORCID_API_URL_MEMBER) {
 			return ORCID_OAUTH_URL;
 		} else {
@@ -128,12 +128,14 @@ class OrcidSsoPlugin extends GenericPlugin {
 		if (preg_match('/<form id="registerForm"[^>]+>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
 			$match = $matches[0][0];
 			$offset = $matches[0][1];
-			$journal = Request::getJournal();
+
+			$request =& PKPApplication::getRequest();
+			$context =& PageRouter::getContext($request);
 
 			$templateMgr->assign(array(
 				'targetOp' => 'register',
-				'orcidProfileOauthPath' => $this->getOauthPath(),
-				'orcidClientId' => $this->getSetting($journal->getId(), 'orcidClientId'),
+				'orcidProfileOauthPath' => $this->getOauthPath($context),
+				'orcidClientId' => $this->getSetting($context->getId(), 'orcidClientId'),
 			));
 
 			$newOutput = substr($output, 0, $offset);
@@ -155,13 +157,15 @@ class OrcidSsoPlugin extends GenericPlugin {
 		if (preg_match('/<input[^>]+id="orcid"[^>]+>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
 			$match = $matches[0][0];
 			$offset = $matches[0][1];
-			$journal = Request::getJournal();
+
+			$request =& PKPApplication::getRequest();
+			$context =& PageRouter::getContext($request);
 
 			// Entering the registration without ORCiD; present the button.
 			$templateMgr->assign(array(
 				'targetOp' => 'profile',
-				'orcidProfileOauthPath' => $this->getOauthPath(),
-				'orcidClientId' => $this->getSetting($journal->getId(), 'orcidClientId'),
+				'orcidProfileOauthPath' => $this->getOauthPath($context),
+				'orcidClientId' => $this->getSetting($context->getId(), 'orcidClientId'),
 			));
 
 			$newOutput = substr($output, 0, $offset+strlen($match));
@@ -188,13 +192,15 @@ class OrcidSsoPlugin extends GenericPlugin {
 		if (preg_match('/<input type="text" class="textField" name="authors\[0\]\[orcid\][^>]+>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
 			$match = $matches[0][0];
 			$offset = $matches[0][1];
-			$journal = Request::getJournal();
+
+			$request =& PKPApplication::getRequest();
+			$context =& PageRouter::getContext($request);
 
 			// Entering the registration without ORCiD; present the button.
 			$templateMgr->assign(array(
 				'targetOp' => 'submit',
-				'orcidProfileOauthPath' => $this->getOauthPath(),
-				'orcidClientId' => $this->getSetting($journal->getId(), 'orcidClientId'),
+				'orcidProfileOauthPath' => $this->getOauthPath($context),
+				'orcidClientId' => $this->getSetting($context->getId(), 'orcidClientId'),
 				'params' => array('articleId' => Request::getUserVar('articleId')),
 			));
 
@@ -232,10 +238,10 @@ class OrcidSsoPlugin extends GenericPlugin {
 			$author->setData('orcidToken', $orcidToken);
 
 			$request =& PKPApplication::getRequest();
-			$context = $request->getContext();
+			$context =& PageRouter::getContext($request);
 
-			$authorOrcidUrl = $this->getOauthPath()."?".http_build_query(array(
-				'client_id' => $this->getSetting($journalId, 'orcidClientId'),
+			$authorOrcidUrl = $this->getOauthPath($context)."?".http_build_query(array(
+				'client_id' => $this->getSetting($contextId, 'orcidClientId'),
 				'response_type' => 'code',
 				'scope' => '/authenticate',
 				'redirect_uri' => Request::url(null, 'orcidapi', 'orcidVerify', null, array('orcidToken'=>$orcidToken, 'articleId'=>$author->getArticleId()))
@@ -351,11 +357,13 @@ class OrcidSsoPlugin extends GenericPlugin {
 	 * @return boolean
 	 */
 	function manage($verb, $args, &$message, &$messageParams) {
-		$journal =& Request::getJournal();
+		$request =& PKPApplication::getRequest();
+		$context =& PageRouter::getContext($request);
+
 		if (!parent::manage($verb, $args, $message, $messageParams)) {
-			if ($verb == 'enable' && !$this->getSetting($journal->getId(), 'orcidProfileAPIPath')) {
+			if ($verb == 'enable' && !$this->getSetting($context->getId(), 'orcidProfileAPIPath')) {
 				// default the 1.2 public API if no setting is present
-				$this->updateSetting($journal->getId(), 'orcidProfileAPIPath', ORCID_API_URL_PUBLIC, 'string');
+				$this->updateSetting($context->getId(), 'orcidProfileAPIPath', ORCID_API_URL_PUBLIC, 'string');
 			} else {
 				return false;
 			}
@@ -375,7 +383,7 @@ class OrcidSsoPlugin extends GenericPlugin {
 				$templateMgr->assign_by_ref('orcidApiUrls', $apiOptions);
 
 				$this->import('OrcidSsoSettingsForm');
-				$form = new OrcidSsoSettingsForm($this, $journal->getId());
+				$form = new OrcidSsoSettingsForm($this, $context->getId());
 				if (Request::getUserVar('save')) {
 					$form->readInputData();
 					if ($form->validate()) {
@@ -411,12 +419,12 @@ class OrcidSsoPlugin extends GenericPlugin {
 	 * Instantiate a MailTemplate
 	 *
 	 * @param $emailKey string
-	 * @param $journal Journal
+	 * @param $context Context
 	 */
-	function &getMailTemplate($emailKey, $journal = null) {
+	function &getMailTemplate($emailKey, $context = null) {
 		if (!isset($this->_mailTemplates[$emailKey])) {
 			import('classes.mail.MailTemplate');
-			$mailTemplate = new MailTemplate($emailKey, null, null, $journal, true, true);
+			$mailTemplate = new MailTemplate($emailKey, null, null, $context, true, true);
 			$this->_mailTemplates[$emailKey] =& $mailTemplate;
 		}
 		return $this->_mailTemplates[$emailKey];
