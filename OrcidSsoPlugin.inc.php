@@ -343,7 +343,9 @@ class OrcidSsoPlugin extends GenericPlugin {
 	function getManagementVerbs() {
 		$verbs = parent::getManagementVerbs();
 		if ($this->getEnabled()) {
-			$verbs[] = array('settings', __('manager.plugins.settings'));
+			$verbs = array_merge($verbs,
+								 array('settings' =>
+									   __('manager.plugins.settings')));
 		}
 		return $verbs;
 	}
