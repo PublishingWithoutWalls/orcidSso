@@ -370,28 +370,13 @@ class OrcidSsoPlugin extends GenericPlugin {
 		);
 	}
 
-	/**
-	 * Execute a management verb on this plugin
-	 * @param $verb string
-	 * @param $args array
-	 * @param $message string Result status message
-	 * @param $messageParams array Parameters for the message key
-	 * @return boolean
+ 	/**
+	 * @see Plugin::manage()
 	 */
-	function manage($verb, $args, &$message, &$messageParams) {
-		$request =& PKPApplication::getRequest();
+	function manage($args, $request) {
 		$context =& PageRouter::getContext($request);
 
-		if (!parent::manage($verb, $args, $message, $messageParams)) {
-			if ($verb == 'enable' && !$this->getSetting($context->getId(), 'orcidProfileAPIPath')) {
-				// default the 1.2 public API if no setting is present
-				$this->updateSetting($context->getId(), 'orcidProfileAPIPath', ORCID_API_URL_PUBLIC, 'string');
-			} else {
-				return false;
-			}
-		}
-
-		switch ($verb) {
+        switch ($request->getUserVar('verb')) {
 			case 'settings':
 				$templateMgr =& TemplateManager::getManager();
 				$templateMgr->register_function('plugin_url', array(&$this, 'smartyPluginUrl'));
@@ -406,27 +391,20 @@ class OrcidSsoPlugin extends GenericPlugin {
 
 				$this->import('OrcidSsoSettingsForm');
 				$form = new OrcidSsoSettingsForm($this, $context->getId());
-				if (Request::getUserVar('save')) {
+
+				if ($request->getUserVar('save')) {
 					$form->readInputData();
 					if ($form->validate()) {
 						$form->execute();
-						Request::redirect(null, 'manager', 'plugin');
-						return false;
-					} else {
-						$this->setBreadcrumbs(true);
-						$form->display();
+                        return new JSONMessage(true);
 					}
 				} else {
-					$this->setBreadcrumbs(true);
 					$form->initData();
-					$form->display();
 				}
-				return true;
-			default:
-				// Unknown management verb
-				assert(false);
-				return false;
+				return new JSONMessage(true, $form->fetch($request));
 		}
+
+        return parent::manage($args, $request);
 	}
 
 	/**
