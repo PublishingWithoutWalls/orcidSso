@@ -341,11 +341,11 @@ class OrcidSsoPlugin extends GenericPlugin {
 	 * Display verbs for the management interface.
 	 */
 	function getManagementVerbs() {
-		$verbs = array();
+		$verbs = parent::getManagementVerbs();
 		if ($this->getEnabled()) {
 			$verbs[] = array('settings', __('manager.plugins.settings'));
 		}
-		return parent::getManagementVerbs($verbs);
+		return $verbs;
 	}
 
 	/**
