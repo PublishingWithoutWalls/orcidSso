@@ -8,10 +8,10 @@
  * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
+ * @package plugins.generic.orcidSso
  * @class OrcidSsoPlugin
- * @ingroup plugins_generic_orcidSso
  *
- * @brief ORCID SSO plugin class
+ * ORCID SSO plugin class
  */
 
 import('lib.pkp.classes.plugins.GenericPlugin');
@@ -30,7 +30,8 @@ define('ORCID_PROFILE_URL', 'orcid-profile');
 class OrcidSsoPlugin extends GenericPlugin {
 	/**
 	 * Called as a plugin is registered to the registry
-	 * @param $category String Name of category plugin was registered to
+	 * @param $category string Name of category plugin was registered to
+     * @param $path string
 	 * @return boolean True iff plugin initialized successfully; if false,
 	 * 	the plugin will not be registered.
 	 */

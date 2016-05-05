@@ -8,10 +8,10 @@
  * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2 or later. For full terms see the file docs/COPYING.
  *
+ * @package plugins.generic.orcidSso
  * @class OrcidHandler
- * @ingroup plugins_generic_orcidSso
  *
- * @brief Pass off internal ORCID API requests to ORCID
+ * Pass off internal ORCID API requests to ORCID
  */
 
 import('classes.handler.Handler');
